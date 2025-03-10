@@ -1,4 +1,3 @@
-const fs = require('fs');
 const prisma = require('../prisma')
 const { validateFolder } = require('../validation/folderValidator')
 require('dotenv').config();
@@ -31,24 +30,30 @@ exports.uploadFile = async(req, res) => {
     const folderId = parseInt(req.body.folderId)
     console.log(file)
     
-    const fileStream = fs.createReadStream(file.path);
     try{
         const { data, error} = await supabase.storage
             .from('files')
-            .upload(`uploads/${file.originalname}`, fileStream, {
-                contentType: 'application/pdf',
+            .upload(`uploads/${file.originalname}`, file.buffer,{
+                contentType: file.mimetype,
                 cacheControl: '3600',
-                upsert: false
+                upsert: false,
+                public: true
               });
-        console.log('e', file.path)
+        // console.log('e', file.path)
         if (error) {
             return next(error)
         }
 
-        const fileUrl = await supabase.storage
-            .from('files')
+
+        const fileUrl = await supabase.storage.from('files')
             .getPublicUrl(`uploads/${file.originalname}`)
-        // console.log('e', fileUrl)
+
+        const ess = await supabase
+            .storage
+            .from('files')
+            .download(`uploads/${file.originalname}`);
+
+        console.log('e', fileUrl.data.publicUrl)
         
         console.log("File upload Success")
         

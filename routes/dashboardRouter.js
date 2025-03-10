@@ -3,16 +3,7 @@ const { getDashboard, uploadFile, createFolder } = require('../controllers/dashb
 const multer  = require('multer')
 const path = require('path')
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../uploads'))
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const fileExtension = path.extname(file.originalname); // Get the file's extension
-    cb(null, file.fieldname + '-' + uniqueSuffix + fileExtension); // Add extension
-  }
-})
+const storage = multer.memoryStorage()
 
 const upload = multer({ storage: storage })
 const dashboardRouter = Router()
