@@ -1,0 +1,27 @@
+<html>
+    <%- include('./partials/document/head') %>
+    <body>
+        <main class="main__login">
+            <form action="/signup" method="POST" class="v__form">
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username">
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password">
+                </div>
+                <div>
+                    <label for="confirmpassword">Confirm Password</label>
+                    <input type="password" id="confirmpassword" name="confirmPassword">
+                </div>
+                <% if(locals.errors) { %>
+                    <%errors.forEach(error => { %>
+                        <h1 class="error"><%= error.msg %></h1>
+                    <%})%>
+                <%}%>
+                <button type="submit">Sign Up</button>
+            </form>
+        </main>
+    </body>
+</html>

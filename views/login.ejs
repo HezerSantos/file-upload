@@ -1,0 +1,18 @@
+<html>
+    <%- include('./partials/document/head') %>
+    <body>
+        <main class="main__login">
+            <form action="/" method="POST" class="v__form">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password">
+                <% if (locals.message) { %>
+                    <h1 class="error"><%= message %></h1>
+                <% } %>
+                <button type="submit">Login</button>
+                <a href="/signup">signup</a>
+            </form>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --p-bg: #330d18;
+    --s-bg: #612637;
+    --p-cc: #944b5f;
+}
+
+body{
+    background: linear-gradient(to bottom, var(--p-bg) 45%, var(--s-bg) 100%);
+}
+
+button{
+    cursor: pointer;
+}
+
+.main__login{
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+
+.v__form{
+    width: clamp(16.25rem, 20vw, 35rem);
+    height: clamp(20rem, 60vh, 30rem);
+    background-color: var(--p-cc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.error{
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+}
+
+nav{
+    display: flex;
+    justify-content: space-around;
+}
+
+.main__dashboard{
+    height: calc(100vh - 46px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.upload__modal, .create__modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 3.5rem;
+}
+
+ul{
+    list-style-type: none;
+}
+.file__item{
+    margin-left: 1rem;
+}
+.file__button{
+    background-color: transparent;
+    border: none;
+}

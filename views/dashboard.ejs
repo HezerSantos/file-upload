@@ -1,0 +1,67 @@
+<html>
+    <%- include('./partials/document/head') %>
+    <body>
+        <% if (user) { %>
+            <nav>
+                <h1>Welcom Back <%= user.username %></h1>
+                <button class="upload__button">Upload File</button>
+                <button class="create__button">Create Button</button>
+            </nav>
+        <main class="main__dashboard">
+                <dialog class="upload__modal">
+                        <form action="/dashboard/upload" method="POST" enctype="multipart/form-data">
+                            <div>
+                                <label for="file">Upload</label>
+                                <br>
+                                <input type="file" name="file" id="file" required>
+                                <label for="folder__name"></label>
+                                <select name="folderId" id="folder__name">
+                                    <option value="">None</option>
+                                    <%user.folders.forEach(folder => { %>
+                                        <option value="<%=folder.id %>">
+                                            <%= folder.name %>
+                                        </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <button type="submit">Upload</button>
+                            <button class="close__umodal">Close</button>
+                        </form>
+                </dialog>
+                <dialog class="create__modal">
+                    <form action="/dashboard/create-folder" method="POST">
+                        <div>
+                            <label for="folder">Folder Name</label>
+                            <br>
+                            <input type="text" name="folderName" id="folder">
+                            <input type="text" name="userId" value="<%= user.id %>" readonly>
+                        </div>
+                        <button type="submit">Create</button>
+                        <button class="close__cfmodal">Close</button> 
+                    </form>
+                </dialog>
+                <section class="file__container">
+                    <%user.folders.forEach(folder => { %>
+                        <button class="file__button"><h2><%= folder.name %></h2></button>
+                        <ul>
+                            <% if (folder.files.length !== 0){ %>
+                                <%folder.files.forEach(file => { %>
+                                    <li class="file__item">
+                                        <a href="<%= file.url %>" download>
+                                            <%= file.name %>
+                                        </a>
+                                    </li>
+                                <% }) %>
+                            <% } else { %>
+                                <li class="file__item">Folder is Empty</li>
+                            <% } %>
+                        </ul>
+                    <% }) %>
+                </section>
+        </main>
+        <% } else { %>
+            <h1>Please Log In</h1>
+            <a href="/">Log in</a>
+        <% } %>
+    </body>
+</html>

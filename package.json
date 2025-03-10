@@ -5,17 +5,31 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup": "npm install express dotenv express-async-handler ejs pg express-validator",
-    "auth": "npm install express-session passport passport-local bcryptjs"
-
+    "auth": "npm install express-session passport passport-local bcryptjs",
+    "set": "npm install bcryptjs date-fns dotenv ejs express-async-handler express-session express-validator express helmet passport-local passport pg"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "@supabase/supabase-js": "^2.49.1",
+    "bcryptjs": "^3.0.2",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
-    "express-async-handler": "^1.2.0"
+    "express-async-handler": "^1.2.0",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.0.0",
+    "multer": "^1.4.5-lts.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.13.3"
+  },
+  "devDependencies": {
+    "prisma": "^6.4.1"
   }
 }

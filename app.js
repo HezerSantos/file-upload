@@ -4,12 +4,12 @@ const path = require('path');
 require('dotenv').config();
 
 //set up
-app.use(express.static(assetsPath));
+
 app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }));
 const assetsPath = path.join(__dirname, "public")
-
+app.use(express.static(assetsPath));
 //secutiry
 const helmet = require('helmet');
 app.use(helmet());
@@ -17,6 +17,9 @@ app.use(helmet());
 //auth
 const session = require("express-session");
 const passport = require("./passport");
+const loginRouter = require("./routes/loginRouter");
+const signUpRouter = require("./routes/singUpRouter");
+const dashboardRouter = require("./routes/dashboardRouter");
 
 app.use(session({ 
     secret: process.env.SESSION_SECRET, 
@@ -33,23 +36,24 @@ app.use(passport.session());
 
 
 
-//log in
-// app.use("/login", loginRouter)
-
+// log in
+app.use("/", loginRouter)
+app.use("/dashboard", dashboardRouter)
+app.use("/signup", signUpRouter)
 //log out
-// app.get("/log-out", (req, res, next) => {
-//     req.logout((err) => {
-//       if (err) {
-//         return next(err);
-//       }
-//       if (req.user){
-//         console.log("logout")
-//       } else {
-//         console.log("null")
-//       }
-//       res.redirect("/login");
-//     });
-//   });
+app.get("/log-out", (req, res, next) => {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      if (req.user){
+        console.log("logout")
+      } else {
+        console.log("null")
+      }
+      res.redirect("/login");
+    });
+  });
 
 
 app.listen(3000, () => {
