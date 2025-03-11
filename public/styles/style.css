@@ -2,11 +2,15 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Mulish", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal; 
 }
 
 :root{
-    --p-bg: #330d18;
-    --s-bg: #612637;
+    --p-bg: #1f1d1e;
+    --s-bg: #303030;
     --p-cc: #944b5f;
 }
 
@@ -46,14 +50,13 @@ button{
 nav{
     display: flex;
     justify-content: space-around;
+    height: 5svh;
 }
 
 .main__dashboard{
-    height: calc(100vh - 46px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    height: 95svh;
+    display: grid;
+    grid-template-columns: 12rem 1fr;
 }
 
 .upload__modal, .create__modal{
@@ -70,7 +73,74 @@ ul{
 .file__item{
     margin-left: 1rem;
 }
+
+.file__item > * {
+    color: white;
+}
 .file__button{
     background-color: transparent;
     border: none;
+    max-width: fit-content;
+    color: white;
+}
+.file__header{
+    color: white;
+    margin-bottom: 1rem;
+}
+.file__container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 1rem 3rem 1rem;
+    overflow-y: auto;
+}
+
+.content__container{
+    border-top-left-radius: 5rem;
+    background-color: var(--s-bg);
+    padding: 3rem 5rem 3rem 5rem;
+    display: grid;
+    grid-template-rows: 3rem 1fr;
+}
+.content__container__nav{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 50% 1fr;
+}
+
+.search__bar{
+    width: clamp(25rem, 50%, 50rem);
+    padding: .5rem;
+    background-color: white;
+    border-radius: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid var(--p-bg);
+    grid-column: 2 / 3;
+}
+
+.create__button{
+    grid-column: 3 / 4;
+    width: 10rem;
+    border-radius: 2rem;
+}
+
+.content__content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem;
+}
+
+.file__block, .file__empty{
+    width: clamp(10rem, 50%, 20rem);
+    height: 2rem;
+}
+
+.file__empty{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
 }

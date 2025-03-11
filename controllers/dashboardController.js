@@ -14,11 +14,13 @@ exports.getDashboard = async(req, res) => {
                     include : {
                         files: true
                     }
-                }
+                },
+                file: true
             },
         })
-        // console.log(user.folders)
+        console.log('user object:', user)
     }
+
 
     res.render("dashboard", {
         user: user
@@ -43,20 +45,8 @@ exports.uploadFile = async(req, res) => {
         if (error) {
             return next(error)
         }
-
-
-        const fileUrl = await supabase.storage.from('files')
-            .getPublicUrl(`uploads/${file.originalname}`)
-
-        const ess = await supabase
-            .storage
-            .from('files')
-            .download(`uploads/${file.originalname}`);
-
-        console.log('e', fileUrl.data.publicUrl)
         
         console.log("File upload Success")
-        
 
         await prisma.file.create({
             data : {
@@ -64,7 +54,6 @@ exports.uploadFile = async(req, res) => {
                 folder: folderId
                     ? { connect: { id: parseInt(folderId) } }
                     : undefined,
-                url: fileUrl.data.publicUrl,
                 inFolder: folderId? true : false
             }
         })

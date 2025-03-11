@@ -19,6 +19,7 @@ model User {
   username String @unique
   password String
   folders Folder[]
+  file File[]
 }
 
 model Folder {
@@ -34,10 +35,11 @@ model Folder {
 model File{
   id Int @id @default(autoincrement())
   name String
-  url String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   inFolder Boolean @default(false)
   folderId Int?
   folder Folder? @relation(fields: [folderId], references: [id])
+  userId Int
+  user User @relation(fields: [userId], references: [id])
 }

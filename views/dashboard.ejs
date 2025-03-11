@@ -5,7 +5,6 @@
             <nav>
                 <h1>Welcom Back <%= user.username %></h1>
                 <button class="upload__button">Upload File</button>
-                <button class="create__button">Create Button</button>
             </nav>
         <main class="main__dashboard">
                 <dialog class="upload__modal">
@@ -41,22 +40,43 @@
                     </form>
                 </dialog>
                 <section class="file__container">
+                    <h1 class="file__header">Your Folders: </h1>
                     <%user.folders.forEach(folder => { %>
-                        <button class="file__button"><h2><%= folder.name %></h2></button>
+                        <button class="file__button"><h2><%= folder.name %>:</h2></button>
                         <ul>
-                            <% if (folder.files.length !== 0){ %>
-                                <%folder.files.forEach(file => { %>
-                                    <li class="file__item">
+                            <li class="file__item">
+                                <% if (folder.files.length !== 0){ %>
+                                    <%folder.files.forEach(file => { %>
                                         <a href="<%= file.url %>" download>
                                             <%= file.name %>
                                         </a>
-                                    </li>
-                                <% }) %>
-                            <% } else { %>
-                                <li class="file__item">Folder is Empty</li>
-                            <% } %>
+                                    <% }) %>
+                                <% } else { %>
+                                    <p class="file__item">Folder is Empty</p>
+                                <% } %>
+                            </li>
                         </ul>
                     <% }) %>
+                </section>
+                <section class="content__container">
+                    <div class="content__container__nav">
+                        <input type="text" class="search__bar">
+                        <button class="create__button">Create Button</button>
+                    </div>
+                            
+                    <div class="content__content">
+                        <% if(user.file.length !== 0) { %>
+                            <% user.file.forEach(file => { %>
+                                <div class="file__block">
+                                    <p><%= file.name %></p>
+                                    <p><%= file.createdAt %></p>
+                                    <p><%= file.updatedAt %></p>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <h1 class="file__empty">No Files Yet</h1>
+                        <% } %>
+                    </div>
                 </section>
         </main>
         <% } else { %>
