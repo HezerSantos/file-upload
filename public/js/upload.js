@@ -26,6 +26,17 @@ try{
     closeCFModal.addEventListener('click', (e) => {
         close(e, cModal)
     })
+
+    const fileInput = document.querySelector("#file")
+    const fileName = document.querySelector(".file__name")
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0]
+        if (file){
+            fileName.textContent = `File: ${file.name}`
+        } else {
+            fileName.textContent = `File: None`
+        }
+    })
 } catch(e) {
     console.log(e)
 }

@@ -34,6 +34,7 @@
                         </select>
                     </div>
                     <div class="modal__buttons">
+                        <p class="file__name">File: None</p>
                         <button type="submit">Upload</button>
                         <button class="close__umodal">Close</button>
                     </div>
@@ -68,11 +69,13 @@
                     <div class="content__content">
                         <% if(user.file.length !== 0) { %>
                             <% user.file.forEach(file => { %>
-                                <div class="file__block">
-                                    <p><%= file.name %></p>
-                                    <p><%= file.createdAt %></p>
-                                    <p><%= file.updatedAt %></p>
-                                </div>
+                                <form action="/dashboard/download/<%= file.name %>" method="POST">
+                                    <button class="file__block">
+                                        <p class="file__content"><%= file.name %></p>
+                                        <p class="file__content"><%= file.createdAt %></p>
+                                        <p class="file__content"><%= file.updatedAt %></p>
+                                    </button>
+                                </form>
                             <% }) %>
                         <% } else { %>
                             <h1 class="file__empty">No Files Yet</h1>
