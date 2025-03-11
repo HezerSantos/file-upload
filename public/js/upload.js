@@ -10,16 +10,14 @@ try{
     const closeCFModal = document.querySelector(".close__cfmodal")
 
     uploadButton.addEventListener('click', () => {
-        uModal.showModal();
+        uModal.classList.toggle('show__modal')
     })
-
     createButton.addEventListener('click', () => {
-        cModal.showModal()
+        cModal.classList.toggle('show__modal')
     })
-
     const close = (e, modal) => {
         e.preventDefault()
-        modal.close()
+        modal.classList.toggle('show__modal')
     }
     closeUModal.addEventListener('click', (e) => {
         close(e, uModal)
@@ -29,5 +27,5 @@ try{
         close(e, cModal)
     })
 } catch(e) {
-
+    console.log(e)
 }

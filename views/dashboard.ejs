@@ -2,43 +2,43 @@
     <%- include('./partials/document/head') %>
     <body>
         <% if (user) { %>
-            <nav>
-                <h1>Welcom Back <%= user.username %></h1>
-                <button class="upload__button">Upload File</button>
-            </nav>
+
         <main class="main__dashboard">
-                <dialog class="upload__modal">
-                        <form action="/dashboard/upload" method="POST" enctype="multipart/form-data">
-                            <div>
-                                <label for="file">Upload</label>
-                                <br>
-                                <input type="file" name="file" id="file" required>
-                                <label for="folder__name"></label>
-                                <select name="folderId" id="folder__name">
-                                    <option value="">None</option>
-                                    <%user.folders.forEach(folder => { %>
-                                        <option value="<%=folder.id %>">
-                                            <%= folder.name %>
-                                        </option>
-                                    <% }) %>
-                                </select>
-                            </div>
-                            <button type="submit">Upload</button>
-                            <button class="close__umodal">Close</button>
-                        </form>
-                </dialog>
-                <dialog class="create__modal">
-                    <form action="/dashboard/create-folder" method="POST">
-                        <div>
-                            <label for="folder">Folder Name</label>
-                            <br>
-                            <input type="text" name="folderName" id="folder">
-                            <input type="text" name="userId" value="<%= user.id %>" readonly>
-                        </div>
+            <div class="create__modal">
+                <form action="/dashboard/create-folder" method="POST">
+                    <div>
+                        <label for="folder">Folder Name</label>
+                        <br>
+                        <input type="text" name="folderName" id="folder" class="create__folder">
+                        <input type="text" name="userId" value="<%= user.id %>" readonly class="hidden">
+                    </div>
+                    <div class="modal__buttons">
                         <button type="submit">Create</button>
                         <button class="close__cfmodal">Close</button> 
-                    </form>
-                </dialog>
+                    </div>
+                </form>
+            </div>
+            <div class="upload__modal">
+                <form action="/dashboard/upload" method="POST" enctype="multipart/form-data">
+                    <div>
+                        <label for="file" class="file__upload"></label>
+                        <input type="file" name="file" id="file" class="file__drop" required>
+                        <label for="folder__name"></label>
+                        <select name="folderId" id="folder__name" class="folder__select">
+                            <option value="">None</option>
+                            <%user.folders.forEach(folder => { %>
+                                <option value="<%=folder.id %>">
+                                    <%= folder.name %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="modal__buttons">
+                        <button type="submit">Upload</button>
+                        <button class="close__umodal">Close</button>
+                    </div>
+                </form>
+            </div>
                 <section class="file__container">
                     <h1 class="file__header">Your Folders: </h1>
                     <%user.folders.forEach(folder => { %>
@@ -60,6 +60,7 @@
                 </section>
                 <section class="content__container">
                     <div class="content__container__nav">
+                        <button class="upload__button">Upload File</button>
                         <input type="text" class="search__bar">
                         <button class="create__button">Create Button</button>
                     </div>
@@ -75,6 +76,7 @@
                             <% }) %>
                         <% } else { %>
                             <h1 class="file__empty">No Files Yet</h1>
+                            <p class="hello"></p>
                         <% } %>
                     </div>
                 </section>
