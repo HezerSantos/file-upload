@@ -4,6 +4,13 @@
         <% if (user) { %>
 
         <main class="main__dashboard">
+            <% if (locals.errors){ %>
+                <div class="absolute error__msg">
+                    <%errors.forEach(error => { %>
+                        <h1> <%= error.msg %></h1>
+                    <% }) %>
+                </div>
+            <% } %>
             <div class="create__modal">
                 <form action="/dashboard/create-folder" method="POST">
                     <div>
@@ -40,6 +47,31 @@
                     </div>
                 </form>
             </div>
+            <div class="file__modal">
+                <button class="close__fmodal">Close</button>
+                <label for="efile__name" class="efile__label">File Name:</label>
+                <input type="text" class="efile__name" id="efile__name">
+                <p class="file__size"></p>
+
+                <div class="modal__buttons">
+                    <form action="" method="POST" action="" class="download__file">
+                        <button class="emodal__button">
+                            Download
+                        </button>
+                    </form>
+                    <form action="" method="POST" action="" class="delete__file">
+                        <button class="emodal__button">
+                            Delete
+                        </button>
+                    </form>
+                    <form action="" method="POST" action="" class="update__file">
+                        <input type="text" readonly class="hidden absolute h__input" name="newName">
+                        <button class="emodal__button">
+                            Save
+                        </button>
+                    </form>
+                </div>
+            </div>
                 <section class="file__container">
                     <h1 class="file__header">Your Folders: </h1>
                     <%user.folders.forEach(folder => { %>
@@ -69,13 +101,13 @@
                     <div class="content__content">
                         <% if(user.file.length !== 0) { %>
                             <% user.file.forEach(file => { %>
-                                <form action="/dashboard/download/<%= file.name %>" method="POST">
-                                    <button class="file__block">
-                                        <p class="file__content"><%= file.name %></p>
-                                        <p class="file__content"><%= file.createdAt %></p>
-                                        <p class="file__content"><%= file.updatedAt %></p>
-                                    </button>
-                                </form>
+                                <button class="file__block">
+                                    <p class="file__content"><%= file.name %></p>
+                                    <p class="file__content"><%= file.createdAt %></p>
+                                    <p class="file__content"><%= file.updatedAt %></p>
+                                    <p class="file__content"><%= file.size %></p>
+                                    <p class="hidden absolute"><%= file.id %></p>
+                                </button>
                             <% }) %>
                         <% } else { %>
                             <h1 class="file__empty">No Files Yet</h1>

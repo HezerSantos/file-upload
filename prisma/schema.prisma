@@ -42,4 +42,5 @@ model File{
   folder Folder? @relation(fields: [folderId], references: [id])
   userId Int
   user User @relation(fields: [userId], references: [id])
+  size String
 }
