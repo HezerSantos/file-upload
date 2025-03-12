@@ -76,13 +76,17 @@
                     <h1 class="file__header">Your Folders: </h1>
                     <%user.folders.forEach(folder => { %>
                         <button class="file__button"><h2><%= folder.name %>:</h2></button>
+                        <p class="path" hidden><%= folder.name %>/</p>
                         <ul>
                             <li class="file__item">
                                 <% if (folder.files.length !== 0){ %>
                                     <%folder.files.forEach(file => { %>
-                                        <a href="<%= file.url %>" download>
+                                        <a href="<%= file.url %>">
                                             <%= file.name %>
                                         </a>
+                                        <p class="path to_<%= file.id %>" hidden>
+                                            <%= folder.name %>/<%= file.name %>
+                                        </p>
                                     <% }) %>
                                 <% } else { %>
                                     <p class="file__item">Folder is Empty</p>
