@@ -28,7 +28,26 @@ button{
     position: absolute;
 }
 .error__msg{
-    background-color: red;
+    position: fixed;
+    background-color: rgb(241, 141, 141);
+    border-radius: 1rem;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: fade-in-out 3s forwards;
+    padding: 1rem 3rem 1rem 3rem;
+}
+
+@keyframes fade-in-out {
+    0%{
+        opacity: 0;
+    }
+    50%{
+        opacity: 100%;
+    }
+    100%{
+        opacity: 0;
+    }
 }
 .main__login{
     height: 100svh;

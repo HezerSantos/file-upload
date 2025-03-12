@@ -5,9 +5,9 @@
 
         <main class="main__dashboard">
             <% if (locals.errors){ %>
-                <div class="absolute error__msg">
+                <div class="error__msg">
                     <%errors.forEach(error => { %>
-                        <h1> <%= error.msg %></h1>
+                        <p> <%= error.msg %></p>
                     <% }) %>
                 </div>
             <% } %>
@@ -100,11 +100,17 @@
                             
                     <div class="content__content">
                         <% if(user.file.length !== 0) { %>
+                            <div class="file__block">
+                                <p class="file__content">Name</p>
+                                <p class="file__content">Created At</p>
+                                <p class="file__content">Updated At</p>
+                                <p class="file__content">Size</p>
+                            </div>
                             <% user.file.forEach(file => { %>
                                 <button class="file__block">
                                     <p class="file__content"><%= file.name %></p>
-                                    <p class="file__content"><%= file.createdAt %></p>
-                                    <p class="file__content"><%= file.updatedAt %></p>
+                                    <p class="file__content cDate"><%= file.createdAt %></p>
+                                    <p class="file__content uDate"><%= file.updatedAt %></p>
                                     <p class="file__content"><%= file.size %></p>
                                     <p class="hidden absolute"><%= file.id %></p>
                                 </button>

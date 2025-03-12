@@ -8,8 +8,7 @@ require('dotenv').config();
 app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }));
-const assetsPath = path.join(__dirname, "public")
-app.use(express.static(assetsPath));
+
 //secutiry
 const helmet = require('helmet');
 app.use(helmet());
@@ -35,6 +34,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+const assetsPath = path.join(__dirname, "public")
+app.use(express.static(assetsPath));
 
 // log in
 app.use("/", loginRouter)

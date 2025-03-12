@@ -75,6 +75,26 @@ try{
         close(e, fModal)
     })
 
+    const cDates = document.querySelectorAll(".cDate")
+    const uDates = document.querySelectorAll(".uDate")
+
+    const dates = [...cDates, ...uDates]
+
+    dates.forEach(date => {
+        const oDate = new Date(date.textContent)
+        const formattedDate = oDate.toLocaleString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: false,
+        });
+        date.textContent = formattedDate
+    })
+
 } catch(e) {
     console.log(e)
 }

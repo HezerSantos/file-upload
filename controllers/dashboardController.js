@@ -6,6 +6,7 @@ const { createClient } = require('@supabase/supabase-js');
 const fs = require('fs');
 const {fileTypeFromBuffer} = require('file-type');
 const { validationResult } = require('express-validator');
+const { updateValidator } = require('../validation/updateValidator');
 
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
@@ -33,7 +34,7 @@ exports.getDashboard = async(req, res) => {
 
     user = await getUser(req)
 
-    console.log(user)
+    // console.log(user)
 
 
     res.render("dashboard", {
@@ -42,15 +43,6 @@ exports.getDashboard = async(req, res) => {
 }
 
 exports.uploadFile = async(req, res, next) => {
-        const errors = validationResult(req)
-        if (!errors.isEmpty()){
-            user = await getUser(req)
-
-            return res.status(400).render("dashboard", {
-                errors: errors.array(),
-                user: user
-            })
-        }
         const file = req.file
         const folderId = parseInt(req.body.folderId)
         // console.log(file)
@@ -89,17 +81,7 @@ exports.uploadFile = async(req, res, next) => {
 }
 
 
-exports.downloadFile = [
-    validateFolder,
-    async(req, res, next) => {
-        const errors = validationResult(req)
-        if (!errors.isEmpty()){
-            user = await getUser(req)
-            return res.status(400).render("dashboard", {
-                errors: errors.array(),
-                user: user
-            })
-        }
+exports.downloadFile = async(req, res, next) => {
         const fileName = req.params.filename
         try{
             const { data, error } = await supabase
@@ -130,7 +112,7 @@ exports.downloadFile = [
         }
 
     }
-]
+
 
 exports.deleteFile = async(req, res, next) => {
     const { originalName } = req.params
@@ -167,7 +149,7 @@ exports.deleteFile = async(req, res, next) => {
 }
 
 exports.updateFile = [
-    validateFolder,
+    updateValidator,
     async(req, res, next) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()){
