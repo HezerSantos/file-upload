@@ -257,7 +257,18 @@ exports.createFolder = [
                     userId: userId
                 }
             })
-            console.log("Folder created")
+            console.log("Folder stored in db")
+
+            const emptyFileBuffer = Buffer.from('');
+
+            const { data, error } = await supabase.storage
+                .from("files")
+                .upload(`${req.user.id}/${folderName}/newFolder.txt`,emptyFileBuffer, {
+                    cacheControl: '3600',
+                    upsert: false
+                })
+            
+            console.log("Folder Stored in SupaBase")
             res.redirect("/dashboard")
         } catch (e) {
             console.error('Error creating folder', e)
