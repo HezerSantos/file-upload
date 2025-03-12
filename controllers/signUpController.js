@@ -2,6 +2,8 @@ const { validateSignUp } = require("../validation/signUpValidator")
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs")
 const prisma = require('../prisma')
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 exports.getSignUp = (req, res) => {
     // console.log(prisma)
     res.render("signup")
@@ -29,6 +31,27 @@ exports.postSignUp = [
             
             })
             console.log("user created")
+
+            const user = await prisma.user.findUnique({
+                where: {
+                    username: username
+                },
+                select: {
+                    id: true
+                }
+            })
+
+            const emptyFileBuffer = Buffer.from('');
+
+            const { data, error } = await supabase
+                .storage
+                .from("files")
+                .upload(`${user.id}/welcome.txt`,emptyFileBuffer, {
+                    cacheControl: '3600',
+                    upsert: false
+                  })
+
+            console.log("user directory created")
             res.redirect("/")
         } catch(e){
             // console.error(e)

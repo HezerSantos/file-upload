@@ -17,7 +17,7 @@ exports.validateSignUp = [
         }),
     body("password")
         .trim()
-        .isLength( {min: 12 }).withMessage("Password must be at least 12 characters")
+        .isLength( {min: 1 }).withMessage("Password must be at least 12 characters")
         .escape(),
     body("confirmPassword")
         .trim()
