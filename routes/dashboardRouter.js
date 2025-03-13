@@ -10,14 +10,14 @@ const dashboardRouter = Router()
 
 dashboardRouter.get("/", getDashboard)
 
-dashboardRouter.post("/upload", upload.single('file'), uploadFile)
+dashboardRouter.post("/upload/:filePath", upload.single('file'), uploadFile)
 
 dashboardRouter.post("/create-folder", createFolder)
 
-dashboardRouter.post("/download/:filename", downloadFile)
+dashboardRouter.post("/download/:folderName/:fileName", downloadFile)
 
-dashboardRouter.post("/delete/:originalName/:fileId", deleteFile)
+dashboardRouter.post("/delete/:folderName/:originalName/:fileId", deleteFile)
 
-dashboardRouter.post("/update/:originalName/:fileId", updateFile)
+dashboardRouter.post("/update/:folderName/:originalName/:fileId", updateFile)
 
 module.exports = dashboardRouter

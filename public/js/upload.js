@@ -31,6 +31,7 @@ try{
         close(e, cModal)
     })
 
+    //CREATING FILE NAME
     const fileInput = document.querySelector("#file")
     const fileName = document.querySelector(".file__name")
     fileInput.addEventListener('change', (e) => {
@@ -56,6 +57,11 @@ try{
             const fileName = button.children[0]
             const fileSize = button.children[3]
             const fileId = button.children[4]
+            let folderName = "/null"
+            if(button.children[5]){
+                folderName = `/${button.children[5].textContent}`
+                console.log(folderName)
+            }
 
             HTMLFileSize.textContent = `Size: ${fileSize.textContent}`
             originalFileName.value = fileName.textContent
@@ -65,9 +71,11 @@ try{
                     input.value = e.target.value
                 })
             })
-            dForm.action = `/dashboard/delete/${fileName.textContent}/${fileId.textContent}`
-            uForm.action = `/dashboard/update/${fileName.textContent}/${fileId.textContent}`
-            dlForm.action = `/dashboard/download/${fileName.textContent}`
+
+            
+            dForm.action = `/dashboard/delete${folderName}/${fileName.textContent}/${fileId.textContent}`
+            uForm.action = `/dashboard/update${folderName}/${fileName.textContent}/${fileId.textContent}`
+            dlForm.action = `/dashboard/download${folderName}/${fileName.textContent}`
 
         })
     })
@@ -95,6 +103,24 @@ try{
         date.textContent = formattedDate
     })
 
+    const fileItems = document.querySelectorAll(".file__item")
+    const uploadForm = document.querySelector(".upload__form")
+
+    fileItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const path = item.children[1].textContent
+            console.log(path.trim())
+            dlForm.action = `/dashboard/download/${path.trim()}`
+        })
+    })
+
+    const folderSelect = document.querySelector(".folder__select")
+
+    folderSelect.addEventListener('change', (e) => {
+        const [folderId, folderName ] = e.target.value.split(',')
+        
+        uploadForm.action = `/dashboard/upload/${folderName? folderName : null}`
+    })
 } catch(e) {
     console.log(e)
 }

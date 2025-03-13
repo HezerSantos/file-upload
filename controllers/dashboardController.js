@@ -45,12 +45,13 @@ exports.getDashboard = async(req, res) => {
 exports.uploadFile = async(req, res, next) => {
         const file = req.file
         const folderId = parseInt(req.body.folderId)
-        // console.log(file)
-        
+        let filePath = req.params.filePath
+        filePath = (filePath === 'null')? '' : `/${filePath}`
+        // console.log(filePath)
         try{
             const { data, error} = await supabase.storage
                 .from('files')
-                .upload(`uploads/${file.originalname}`, file.buffer,{
+                .upload(`${req.user.id}${(filePath)}/${file.originalname}`, file.buffer,{
                     contentType: file.mimetype,
                     cacheControl: '3600',
                     upsert: false
@@ -82,12 +83,15 @@ exports.uploadFile = async(req, res, next) => {
 
 
 exports.downloadFile = async(req, res, next) => {
-        const fileName = req.params.filename
+        const { fileName } = req.params
+        let { folderName } = req.params
+
+        let filePath = (folderName === 'null')? '' : `/${folderName}`
         try{
             const { data, error } = await supabase
                 .storage
                 .from('files')
-                .download(`uploads/${fileName}`);
+                .download(`${req.user.id}${(filePath)}/${fileName}`);
 
             if (error) {
                 user = await getUser(req)
@@ -115,8 +119,11 @@ exports.downloadFile = async(req, res, next) => {
 
 
 exports.deleteFile = async(req, res, next) => {
+    const { folderName } = req.params
     const { originalName } = req.params
     const { fileId } = req.params
+
+    let filePath = (folderName === 'null')? '' : `/${folderName}`
 
     try{
         // console.log(originalName, fileId)
@@ -130,7 +137,7 @@ exports.deleteFile = async(req, res, next) => {
         const { data, error } = await supabase
             .storage
             .from('files')
-            .remove([`uploads/${originalName}`])
+            .remove([`${req.user.id}${(filePath)}/${originalName}`])
         
         if (error) {
             user = await getUser(req)
@@ -161,7 +168,9 @@ exports.updateFile = [
         }
         const { originalName } = req.params
         const { fileId } = req.params
+        const { folderName } = req.params
         const newName = req.body.newName
+        let filePath = (folderName === 'null')? '' : `/${folderName}`
 
         try{
             // console.log(originalName, fileId)
@@ -179,7 +188,7 @@ exports.updateFile = [
             const { data: downloadData, error: downloadError } = await supabase
                 .storage
                 .from('files')
-                .download(`uploads/${originalName}`);
+                .download(`${req.user.id}${(filePath)}/${originalName}`);
 
             if (downloadError) {
                 console.error('Error downloading file:', downloadError);
@@ -198,7 +207,7 @@ exports.updateFile = [
 
             const { data: uploadData, error: uploadError} = await supabase.storage
             .from('files')
-            .upload(`uploads/${newName}`, buffer,{
+            .upload(`${req.user.id}${(filePath)}/${newName}`, buffer,{
                 contentType: type.mime,
                 cacheControl: '3600',
                 upsert: false
@@ -216,7 +225,7 @@ exports.updateFile = [
             const { data: deleteData, error: deleteError } = await supabase
                 .storage
                 .from('files')
-                .remove([`uploads/${originalName}`])
+                .remove([`${req.user.id}${(filePath)}/${originalName}`])
                 
             if (deleteError) {
                 console.error('Error deleting file:', deleteError);

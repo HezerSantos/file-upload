@@ -177,11 +177,11 @@ nav{
 ul{
     list-style-type: none;
 }
-.file__item{
+.file__item, .file__item__empty{
     margin-left: 1rem;
 }
 
-.file__item > * {
+.file__item > *, .file__item__empty > * {
     color: white;
 }
 .file__button{

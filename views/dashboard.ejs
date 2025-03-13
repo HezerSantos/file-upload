@@ -26,7 +26,7 @@
                 </form>
             </div>
             <div class="upload__modal">
-                <form action="/dashboard/upload" method="POST" enctype="multipart/form-data">
+                <form action="/dashboard/upload/null" method="POST" enctype="multipart/form-data" class="upload__form">
                     <div>
                         <label for="file" class="file__upload"></label>
                         <input type="file" name="file" id="file" class="file__drop" required>
@@ -34,7 +34,7 @@
                         <select name="folderId" id="folder__name" class="folder__select">
                             <option value="">None</option>
                             <%user.folders.forEach(folder => { %>
-                                <option value="<%=folder.id %>">
+                                <option value="<%= folder.id %>,<%= folder.name %>">
                                     <%= folder.name %>
                                 </option>
                             <% }) %>
@@ -81,15 +81,15 @@
                             <li class="file__item">
                                 <% if (folder.files.length !== 0){ %>
                                     <%folder.files.forEach(file => { %>
-                                        <a href="<%= file.url %>">
+                                        <p href="<%= file.url %>">
                                             <%= file.name %>
-                                        </a>
+                                        </p>
                                         <p class="path to_<%= file.id %>" hidden>
                                             <%= folder.name %>/<%= file.name %>
                                         </p>
                                     <% }) %>
                                 <% } else { %>
-                                    <p class="file__item">Folder is Empty</p>
+                                    <p class="file__item__empty">Folder is Empty</p>
                                 <% } %>
                             </li>
                         </ul>
@@ -110,7 +110,20 @@
                                 <p class="file__content">Updated At</p>
                                 <p class="file__content">Size</p>
                             </div>
-                            <% user.file.forEach(file => { %>
+                            <% user.folders.forEach(folder => { %>
+                                <% folder.files.forEach(file => { %>
+                                    <button class="file__block">
+                                        <p class="file__content"><%= file.name %></p>
+                                        <p class="file__content cDate"><%= file.createdAt %></p>
+                                        <p class="file__content uDate"><%= file.updatedAt %></p>
+                                        <p class="file__content"><%= file.size %></p>
+                                        <p class="hidden absolute"><%= file.id %></p>
+                                        <p class="hidden absolute"><%= folder.name %></p>
+                                    </button>
+                                <% }) %>
+                            <% }) %>
+                            <% const unFiled = user.file.filter(file => !file.inFolder) %>
+                            <% unFiled.forEach(file => { %>
                                 <button class="file__block">
                                     <p class="file__content"><%= file.name %></p>
                                     <p class="file__content cDate"><%= file.createdAt %></p>
