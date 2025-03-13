@@ -72,11 +72,38 @@
                     </form>
                 </div>
             </div>
+            <div class="folder__modal">
+                <button class="close__flmodal">Close</button>
+                <label for="new__folder__name" class="efolder__label">Folder Name: </label>
+                <input type="text" id="new__folder__name" class="efolder_name">
+                <div class="modal__buttons">
+                    <form action="" method="POST" action="" class="download__file">
+                        <button class="emodal__button hidden" disabled>
+                        </button>
+                    </form>
+                    <div>
+                        <button class="emodal__button edelete">
+                            Delete
+                        </button>
+                    </div>
+                    <form action="" method="POST" action="" class="update__folder">
+                        <input type="text" readonly class="hidden absolute hf__input" name="newFolderName">
+                        <button class="emodal__button">
+                            Save
+                        </button>
+                    </form>
+                </div>
+            </div>
                 <section class="file__container">
                     <h1 class="file__header">Your Folders: </h1>
                     <%user.folders.forEach(folder => { %>
-                        <button class="file__button"><h2><%= folder.name %>:</h2></button>
-                        <p class="path" hidden><%= folder.name %>/</p>
+                        <form action="" method="POST" class="edit__folder">
+                            <button class="file__button">
+                                <h2><%= folder.name %>:</h2>
+                                <p hidden><%= folder.id %> </p>
+                            </button>
+                        </form>
+                        <p class="path" hidden><%= folder.name %>/<%= folder.id %></p>
                         <ul>
                                 <% if (folder.files.length !== 0){ %>
                                     <%folder.files.forEach(file => { %>
@@ -96,6 +123,21 @@
                                 <% } %>
                         </ul>
                     <% }) %>
+                    <% const unFiled = user.file.filter(file => !file.inFolder) %>
+                    <h3 class="file__button">Unfiled:</h3>
+                    <ul>
+                        <% unFiled.forEach(file => { %>
+                            <li class="file__item">
+                                <button class="nav__file__button">
+                                    <%= file.name %>
+                                </button>
+                                <p class="path to_<%= file.id %>" hidden>
+                                    null/<%= file.name %>/<%= file.id %>
+                                </p>
+                                <p hidden><%= file.size %></p>
+                            </li>
+                        <% }) %>
+                    </ul>
                 </section>
                 <section class="content__container">
                     <div class="content__container__nav">

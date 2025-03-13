@@ -34,6 +34,9 @@ try{
 
     const folderSelect = document.querySelector(".folder__select")
 
+    const folderButtons = document.querySelectorAll(".file__button")
+    // const dFolder = document.querySelector(".delete__folder")
+
 
     //Basic Buttons
     uploadButton.addEventListener('click', () => {
@@ -85,16 +88,12 @@ try{
             HTMLFileSize.textContent = `Size: ${fileSize.textContent}`
             originalFileName.value = fileName.textContent
             
-            originalFileName.addEventListener("change", (e) => {
-                hiddenInputs.forEach(input => {
-                    input.value = e.target.value
-                })
-            })
+
 
             
             dForm.action = `/dashboard/delete${folderName}/${fileName.textContent}/${fileId.textContent}`
             uForm.action = `/dashboard/update${folderName}/${fileName.textContent}/${fileId.textContent}`
-            dlForm.action = `/dashboard/download${folderName}/${fileName.textContent}`
+            dlForm.action = `/dashboard/download${folderName}/${fileName.textContent}/${fileId.textContent}`
 
         })
     })
@@ -103,6 +102,11 @@ try{
         fModalFlag = false
     })
 
+    originalFileName.addEventListener("change", (e) => {
+        hiddenInputs.forEach(input => {
+            input.value = e.target.value
+        })
+    })
 
     //Format the Dates
     dates.forEach(date => {
@@ -135,6 +139,7 @@ try{
             dForm.action = `/dashboard/delete/${path.trim()}`
 
             originalFileName.value = fileName
+            HTMLFileSize.textContent = `Size: ${item.children[2].textContent}`
         })
     })
 
@@ -143,6 +148,28 @@ try{
     folderSelect.addEventListener('change', (e) => {
         const [folderId, folderName ] = e.target.value.split(',')
         uploadForm.action = `/dashboard/upload/${folderName? folderName : null}`
+    })
+
+    const folderModal = document.querySelector(".folder__modal")
+    const newFolderName = document.querySelector("#new__folder__name")
+    const closeFlModal = document.querySelector(".close__flmodal")
+
+    let flModalFlag = false
+    folderButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault()
+            // dFolder.action = `/dashboard/delete-folder/${button.children[1].textContent}`
+            if (!flModalFlag){
+                folderModal.classList.toggle("show__modal")
+                flModalFlag = true
+            }
+            newFolderName.value = button.children[0].textContent.slice(0, -1)
+        })
+    })
+    closeFlModal.addEventListener('click', (e) => {
+        e.preventDefault()
+        folderModal.classList.toggle("show__modal")
+        flModalFlag = false
     })
 } catch(e) {
     console.log(e)

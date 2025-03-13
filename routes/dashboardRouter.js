@@ -20,4 +20,6 @@ dashboardRouter.post("/delete/:folderName/:originalName/:fileId", deleteFile)
 
 dashboardRouter.post("/update/:folderName/:originalName/:fileId", updateFile)
 
+dashboardRouter.post("delete-folder/:folderId")
+
 module.exports = dashboardRouter
