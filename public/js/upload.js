@@ -153,12 +153,22 @@ try{
     const folderModal = document.querySelector(".folder__modal")
     const newFolderName = document.querySelector("#new__folder__name")
     const closeFlModal = document.querySelector(".close__flmodal")
+    const modal = document.querySelector(".delete__folder")
+    const closeModal = document.querySelector(".close__dmodal")
+    const openModal = document.querySelector(".edelete")
+    const dFolder = document.querySelector(".eadelete__form")
 
+    openModal.addEventListener('click', () => {
+        modal.showModal()
+    })
+    closeModal.addEventListener('click', () => {
+        modal.close()
+    })
     let flModalFlag = false
     folderButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault()
-            // dFolder.action = `/dashboard/delete-folder/${button.children[1].textContent}`
+            dFolder.action = `/dashboard/delete-folder/${button.children[0].textContent.slice(0, -1)}/${button.children[1].textContent}`
             if (!flModalFlag){
                 folderModal.classList.toggle("show__modal")
                 flModalFlag = true

@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { getDashboard, uploadFile, createFolder, downloadFile, deleteFile, updateFile } = require('../controllers/dashboardController')
+const { getDashboard, uploadFile, createFolder, downloadFile, deleteFile, updateFile, deleteFolder } = require('../controllers/dashboardController')
 const multer  = require('multer')
 const path = require('path')
 
@@ -20,6 +20,6 @@ dashboardRouter.post("/delete/:folderName/:originalName/:fileId", deleteFile)
 
 dashboardRouter.post("/update/:folderName/:originalName/:fileId", updateFile)
 
-dashboardRouter.post("delete-folder/:folderId")
+dashboardRouter.post("/delete-folder/:folderName/:folderId", deleteFolder)
 
 module.exports = dashboardRouter

@@ -285,3 +285,47 @@ exports.createFolder = [
         }
     }
 ]
+
+exports.deleteFolder = async(req, res, next) => {
+    const { folderName } = req.params
+    const { folderId } = req.params
+
+    try{
+        await prisma.file.deleteMany({
+            where: {
+                folderId: parseInt(folderId)
+            }
+        })
+
+        await prisma.folder.delete({
+            where: {
+                id: parseInt(folderId)
+            }
+        })
+
+        console.log("Deleted files and folder")
+        console.log(`${req.user.id}/${folderName}`)
+        const { data: files, error } = await supabase
+            .storage
+            .from('files') // specify your storage bucket
+            .list(`${req.user.id}/${folderName}`, { recursive: true }) // list files within the folder
+
+        for (const file of files){
+            const { data, error: deleteError} = await supabase.storage
+                .from("files")
+                .remove(`${req.user.id}/${folderName}/${file.name}`)
+            if (deleteError) {
+                console.error(`Error deleting file ${file.name}:`, deleteError)
+            } else {
+                console.log(`File ${file.name} deleted successfully!`)
+            }
+        }
+
+
+        console.log("Deleted folder from supabase")
+
+        res.redirect("/dashboard")
+    } catch (e){
+        console.error(e)
+    }
+}

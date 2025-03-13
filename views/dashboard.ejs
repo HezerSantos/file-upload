@@ -72,6 +72,15 @@
                     </form>
                 </div>
             </div>
+            <dialog class="delete__folder">
+                <p>Deleting The Folder would delete all of its contents</p>
+                <div class="df__buttons">
+                    <button class="close__dmodal">Close</button>
+                    <form action="" method="POST" class="eadelete__form">
+                        <button class="eadelete">Delete</button>
+                    </form>
+                </div>
+            </dialog>
             <div class="folder__modal">
                 <button class="close__flmodal">Close</button>
                 <label for="new__folder__name" class="efolder__label">Folder Name: </label>
@@ -97,12 +106,10 @@
                 <section class="file__container">
                     <h1 class="file__header">Your Folders: </h1>
                     <%user.folders.forEach(folder => { %>
-                        <form action="" method="POST" class="edit__folder">
                             <button class="file__button">
                                 <h2><%= folder.name %>:</h2>
                                 <p hidden><%= folder.id %> </p>
                             </button>
-                        </form>
                         <p class="path" hidden><%= folder.name %>/<%= folder.id %></p>
                         <ul>
                                 <% if (folder.files.length !== 0){ %>
