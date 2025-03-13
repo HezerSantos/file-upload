@@ -45,6 +45,7 @@ exports.getDashboard = async(req, res) => {
 exports.uploadFile = async(req, res, next) => {
         const file = req.file
         const folderId = parseInt(req.body.folderId)
+        console.log(folderId)
         let filePath = req.params.filePath
         filePath = (filePath === 'null')? '' : `/${filePath}`
         // console.log(filePath)

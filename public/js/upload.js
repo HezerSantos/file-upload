@@ -13,6 +13,29 @@ try{
 
     const fileButtons = document.querySelectorAll(".file__block")
 
+    const originalFileName = document.querySelector("#efile__name")
+    const HTMLFileSize = document.querySelector(".file__size")
+    const closeFModal = document.querySelector(".close__fmodal")
+    const hiddenInputs = document.querySelectorAll(".h__input")
+    const dForm = document.querySelector(".delete__file")
+    const uForm = document.querySelector(".update__file")
+    const dlForm = document.querySelector(".download__file")
+
+    const fileInput = document.querySelector("#file")
+    const fileName = document.querySelector(".file__name")
+
+    const cDates = document.querySelectorAll(".cDate")
+    const uDates = document.querySelectorAll(".uDate")
+
+    const dates = [...cDates, ...uDates]
+
+    const fileItems = document.querySelectorAll(".file__item")
+    const uploadForm = document.querySelector(".upload__form")
+
+    const folderSelect = document.querySelector(".folder__select")
+
+
+    //Basic Buttons
     uploadButton.addEventListener('click', () => {
         uModal.classList.toggle('show__modal')
     })
@@ -32,8 +55,7 @@ try{
     })
 
     //CREATING FILE NAME
-    const fileInput = document.querySelector("#file")
-    const fileName = document.querySelector(".file__name")
+
     fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0]
         if (file){
@@ -43,17 +65,14 @@ try{
         }
     })
 
-    const originalFileName = document.querySelector("#efile__name")
-    const HTMLFileSize = document.querySelector(".file__size")
-    const closeFModal = document.querySelector(".close__fmodal")
-    const hiddenInputs = document.querySelectorAll(".h__input")
-    const dForm = document.querySelector(".delete__file")
-    const uForm = document.querySelector(".update__file")
-    const dlForm = document.querySelector(".download__file")
-
+    let fModalFlag = false
+    //Editing the action of delete update and download
     fileButtons.forEach(button => {
         button.addEventListener('click', () => {
-            fModal.classList.toggle('show__modal')
+            if (!fModalFlag){
+                fModal.classList.toggle('show__modal')
+                fModalFlag = true
+            }
             const fileName = button.children[0]
             const fileSize = button.children[3]
             const fileId = button.children[4]
@@ -81,13 +100,11 @@ try{
     })
     closeFModal.addEventListener('click', (e) => {
         close(e, fModal)
+        fModalFlag = false
     })
 
-    const cDates = document.querySelectorAll(".cDate")
-    const uDates = document.querySelectorAll(".uDate")
 
-    const dates = [...cDates, ...uDates]
-
+    //Format the Dates
     dates.forEach(date => {
         const oDate = new Date(date.textContent)
         const formattedDate = oDate.toLocaleString('en-US', {
@@ -103,22 +120,28 @@ try{
         date.textContent = formattedDate
     })
 
-    const fileItems = document.querySelectorAll(".file__item")
-    const uploadForm = document.querySelector(".upload__form")
 
+    //Editing the action for file nav
     fileItems.forEach(item => {
         item.addEventListener('click', () => {
+            if (!fModalFlag){
+                fModal.classList.toggle('show__modal')
+                fModalFlag = true
+            }
             const path = item.children[1].textContent
-            console.log(path.trim())
+            const fileName = item.children[0].textContent.trim()
             dlForm.action = `/dashboard/download/${path.trim()}`
+            uForm.action = `/dashboard/update/${path.trim()}`
+            dForm.action = `/dashboard/delete/${path.trim()}`
+
+            originalFileName.value = fileName
         })
     })
 
-    const folderSelect = document.querySelector(".folder__select")
+
 
     folderSelect.addEventListener('change', (e) => {
         const [folderId, folderName ] = e.target.value.split(',')
-        
         uploadForm.action = `/dashboard/upload/${folderName? folderName : null}`
     })
 } catch(e) {

@@ -14,7 +14,7 @@ dashboardRouter.post("/upload/:filePath", upload.single('file'), uploadFile)
 
 dashboardRouter.post("/create-folder", createFolder)
 
-dashboardRouter.post("/download/:folderName/:fileName", downloadFile)
+dashboardRouter.post("/download/:folderName/:fileName/:fileId", downloadFile)
 
 dashboardRouter.post("/delete/:folderName/:originalName/:fileId", deleteFile)
 

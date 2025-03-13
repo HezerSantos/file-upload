@@ -78,20 +78,22 @@
                         <button class="file__button"><h2><%= folder.name %>:</h2></button>
                         <p class="path" hidden><%= folder.name %>/</p>
                         <ul>
-                            <li class="file__item">
                                 <% if (folder.files.length !== 0){ %>
                                     <%folder.files.forEach(file => { %>
-                                        <p href="<%= file.url %>">
-                                            <%= file.name %>
-                                        </p>
-                                        <p class="path to_<%= file.id %>" hidden>
-                                            <%= folder.name %>/<%= file.name %>
-                                        </p>
+                                        <li class="file__item">
+                                            <button class="nav__file__button">
+                                                <%= file.name %>
+                                            </button>
+                                            <p class="path to_<%= file.id %>" hidden>
+                                                <%= folder.name %>/<%= file.name %>/<%= file.id %>
+                                            </p>
+                                        </li>
                                     <% }) %>
                                 <% } else { %>
-                                    <p class="file__item__empty">Folder is Empty</p>
+                                    <li>
+                                        <p class="file__item__empty">Folder is Empty</p>
+                                    </li>
                                 <% } %>
-                            </li>
                         </ul>
                     <% }) %>
                 </section>
