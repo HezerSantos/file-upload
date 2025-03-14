@@ -14,7 +14,8 @@ exports.validateSignUp = [
                 throw new Error("Username Already Exists")
             }
             return true
-        }),
+        })
+        .escape(),
     body("password")
         .trim()
         .isLength( {min: 1 }).withMessage("Password must be at least 12 characters")
@@ -27,4 +28,5 @@ exports.validateSignUp = [
             }
             return true
         })
+        .escape()
 ]

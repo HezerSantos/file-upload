@@ -164,7 +164,15 @@ try{
     closeModal.addEventListener('click', () => {
         modal.close()
     })
+
+    const newFolderNameInput = document.querySelector(".hf__input")
+    newFolderName.addEventListener('change', (e) => {
+        newFolderNameInput.value = e.target.value
+        console.log(newFolderNameInput.value)
+    })
+
     let flModalFlag = false
+    const updateFolder = document.querySelector(".update__folder")
     folderButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault()
@@ -174,6 +182,8 @@ try{
                 flModalFlag = true
             }
             newFolderName.value = button.children[0].textContent.slice(0, -1)
+            newFolderNameInput.value = newFolderName.value
+            updateFolder.action = `/dashboard/update-folder/${button.children[2].textContent}`
         })
     })
     closeFlModal.addEventListener('click', (e) => {
@@ -181,6 +191,9 @@ try{
         folderModal.classList.toggle("show__modal")
         flModalFlag = false
     })
+
+
+
 } catch(e) {
     console.log(e)
 }

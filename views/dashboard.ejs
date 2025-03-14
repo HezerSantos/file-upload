@@ -96,7 +96,7 @@
                         </button>
                     </div>
                     <form action="" method="POST" action="" class="update__folder">
-                        <input type="text" readonly class="hidden absolute hf__input" name="newFolderName">
+                        <input type="text" readonly class="hidden absolute hf__input" name="newName">
                         <button class="emodal__button">
                             Save
                         </button>
@@ -109,8 +109,8 @@
                             <button class="file__button">
                                 <h2><%= folder.name %>:</h2>
                                 <p hidden><%= folder.id %> </p>
+                                <p class="path" hidden><%= folder.name %>/<%= folder.id %></p>
                             </button>
-                        <p class="path" hidden><%= folder.name %>/<%= folder.id %></p>
                         <ul>
                                 <% if (folder.files.length !== 0){ %>
                                     <%folder.files.forEach(file => { %>

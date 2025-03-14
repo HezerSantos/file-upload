@@ -329,3 +329,83 @@ exports.deleteFolder = async(req, res, next) => {
         console.error(e)
     }
 }
+
+exports.updateFolder = [
+    updateValidator,
+    async(req, res, next) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()){
+            const user = await getUser(req)
+            return res.status(400).render("dashboard", {
+                errors: errors.array(),
+                user: user
+            })
+        }
+
+        const { folderName } = req.params
+        const { folderId } = req.params
+        const { newName } = req.body
+        console.log(folderName, folderId, newName)
+        try{
+            await prisma.folder.update({
+                where: {
+                    id: parseInt(folderId)
+                },
+                data: {
+                    name: newName
+                }
+            })
+
+            
+            const { data: files, error } = await supabase.storage
+                .from("files")
+                .list(`${req.user.id}/${folderName}`, { recursive: true })
+
+            console.log('GET all Files')
+            const fileSet = []
+
+            for (const file of files){
+                // console.log(file)
+                const { data: downloadData, error: downloadError } = await supabase
+                    .storage
+                    .from('files')
+                    .download(`${req.user.id}/${folderName}/${file.name}`);
+                console.log('f', downloadData)
+
+                const buffer = Buffer.from(await downloadData.arrayBuffer());
+                const type = await fileTypeFromBuffer(buffer)
+                const { data, error } = await supabase.storage
+                    .from('files')
+                    .upload(`${req.user.id}/${newName}/${file.name}`, buffer, {
+                        contentType: downloadData.type,
+                        cacheControl: '3600',
+                        upsert: false
+                })
+            } 
+
+            console.log('Downloaded all Files')
+            console.log('Uploaded all Files with new Name')
+
+            for (const file of files){
+                const { data, error: deleteError} = await supabase.storage
+                    .from("files")
+                    .remove(`${req.user.id}/${folderName}/${file.name}`)
+                if (deleteError) {
+                    console.error(`Error deleting file ${file.name}:`, deleteError)
+                } else {
+                    console.log(`File ${file.name} deleted successfully!`)
+                }
+            }
+            
+            console.log('Removed all Old Files')
+
+
+
+            res.redirect("/dashboard")
+            
+        } catch (e){
+            console.error(e)
+        }
+
+    }
+]
