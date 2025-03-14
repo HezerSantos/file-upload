@@ -104,6 +104,7 @@
                 </div>
             </div>
                 <section class="file__container">
+                    <button class="all__files">Go Back</button>
                     <h1 class="file__header">Your Folders: </h1>
                     <%user.folders.forEach(folder => { %>
                             <button class="file__button">
@@ -111,7 +112,7 @@
                                 <p hidden><%= folder.id %> </p>
                                 <p class="path" hidden><%= folder.name %>/<%= folder.id %></p>
                             </button>
-                        <ul>
+                        <ul class="f<%= folder.id %>">
                                 <% if (folder.files.length !== 0){ %>
                                     <%folder.files.forEach(file => { %>
                                         <li class="file__item">
@@ -121,6 +122,7 @@
                                             <p class="path to_<%= file.id %>" hidden>
                                                 <%= folder.name %>/<%= file.name %>/<%= file.id %>
                                             </p>
+                                            <p hidden><%=file.id%></p>
                                         </li>
                                     <% }) %>
                                 <% } else { %>
@@ -131,7 +133,9 @@
                         </ul>
                     <% }) %>
                     <% const unFiled = user.file.filter(file => !file.inFolder) %>
-                    <h3 class="file__button">Unfiled:</h3>
+                    <button class="unfile__button">
+                        <h2>Unfiled:</h2>
+                    </button>
                     <ul>
                         <% unFiled.forEach(file => { %>
                             <li class="file__item">
@@ -155,7 +159,7 @@
                             
                     <div class="content__content">
                         <% if(user.file.length !== 0) { %>
-                            <div class="file__block">
+                            <div class="file__block file__header__block">
                                 <p class="file__content">Name</p>
                                 <p class="file__content">Created At</p>
                                 <p class="file__content">Updated At</p>
@@ -163,7 +167,7 @@
                             </div>
                             <% user.folders.forEach(folder => { %>
                                 <% folder.files.forEach(file => { %>
-                                    <button class="file__block">
+                                    <button class="file__block afile f" id="f<%= file.id %>">
                                         <p class="file__content"><%= file.name %></p>
                                         <p class="file__content cDate"><%= file.createdAt %></p>
                                         <p class="file__content uDate"><%= file.updatedAt %></p>
@@ -175,7 +179,7 @@
                             <% }) %>
                             <% const unFiled = user.file.filter(file => !file.inFolder) %>
                             <% unFiled.forEach(file => { %>
-                                <button class="file__block">
+                                <button class="file__block unfiled afile">
                                     <p class="file__content"><%= file.name %></p>
                                     <p class="file__content cDate"><%= file.createdAt %></p>
                                     <p class="file__content uDate"><%= file.updatedAt %></p>

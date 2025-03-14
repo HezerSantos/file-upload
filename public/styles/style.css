@@ -184,7 +184,7 @@ ul{
 .file__item > *, .file__item__empty > * {
     color: white;
 }
-.file__button{
+.file__button, .unfile__button, .all__files{
     background-color: transparent;
     border: none;
     max-width: fit-content;

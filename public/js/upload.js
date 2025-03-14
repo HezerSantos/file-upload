@@ -1,5 +1,4 @@
 
-
 try{
     const uModal = document.querySelector(".upload__modal")
     const cModal = document.querySelector(".create__modal")
@@ -68,6 +67,19 @@ try{
         }
     })
 
+    const pTag = (text) => {
+        const p = document.createElement("p")
+        p.textContent = text
+        return p
+    }
+    const div = () => {
+        return document.createElement("div")
+    }
+    const button = () => {
+        const button = document.createElement("button")
+        button.classList.add("file__block")
+        return 
+    }
     let fModalFlag = false
     //Editing the action of delete update and download
     fileButtons.forEach(button => {
@@ -95,6 +107,7 @@ try{
             uForm.action = `/dashboard/update${folderName}/${fileName.textContent}/${fileId.textContent}`
             dlForm.action = `/dashboard/download${folderName}/${fileName.textContent}/${fileId.textContent}`
 
+            
         })
     })
     closeFModal.addEventListener('click', (e) => {
@@ -173,6 +186,16 @@ try{
 
     let flModalFlag = false
     const updateFolder = document.querySelector(".update__folder")
+    const fileContainer = document.querySelector(".content__content")
+    const fileBlockMap = new Map()
+
+    const fileContainerList = Array.from(fileContainer.children)
+
+    fileContainerList.forEach(child => {
+        fileBlockMap.set(child.id, child)
+    })
+
+    const fileBlockHeader = document.querySelector(".file__header__block")
     folderButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault()
@@ -183,7 +206,23 @@ try{
             }
             newFolderName.value = button.children[0].textContent.slice(0, -1)
             newFolderNameInput.value = newFolderName.value
-            updateFolder.action = `/dashboard/update-folder/${button.children[2].textContent}`
+            updateFolder.action = `/dashboard/update-folder/${button.children[2].textContent.trim()}`
+
+            
+
+            const fileButtonList = []
+            let correspondingUl = document.querySelector(`.f${button.children[1].textContent.trim()}`)
+            correspondingUl = Array.from(correspondingUl.children)
+            correspondingUl.forEach(li => {
+                const correspondingClass = li.children[2].textContent.trim()
+                const fileBlock = fileBlockMap.get(`f${correspondingClass}`)
+                fileButtonList.push(fileBlock)
+            })
+            fileContainer.textContent = ""
+            fileContainer.appendChild(fileBlockHeader)
+            fileButtonList.forEach(button => {
+                fileContainer.appendChild(button)
+            })
         })
     })
     closeFlModal.addEventListener('click', (e) => {
@@ -192,7 +231,25 @@ try{
         flModalFlag = false
     })
 
+    const uFileButton = document.querySelector(".unfile__button")
+    const unfiledFiles = document.querySelectorAll(".unfiled")
+    uFileButton.addEventListener('click', () => {
+        fileContainer.textContent = ""
+        fileContainer.appendChild(fileBlockHeader)
+        unfiledFiles.forEach(file => {
+            fileContainer.appendChild(file)
+        })
+    })
 
+    const allFiles = document.querySelectorAll(".afile")
+    const goBack = document.querySelector(".all__files")
+    goBack.addEventListener('click', () => {
+        fileContainer.textContent = ""
+        fileContainer.appendChild(fileBlockHeader)
+        allFiles.forEach(file => {
+            fileContainer.appendChild(file)
+        })
+    })
 
 } catch(e) {
     console.log(e)
